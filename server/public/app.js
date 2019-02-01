@@ -1,18 +1,48 @@
 (function(gobal) {
-  let button = document.getElementById('button');
-  let textArea = document.getElementById('json');
+  let fileElem = document.querySelector('#fileElem');
 
-  button.addEventListener('click', (e) => {
+  let handleFile = (file) => {
+    if (file) {
+      let reader = new FileReader();
+
+      reader.addEventListener(
+        'load',
+        (event) => {
+          processFile(reader.result, file.name);
+        },
+        false
+      );
+
+      reader.readAsText(file);
+    } else {
+      console.log('pick File');
+    }
+  };
+
+  let processFile = (data, name) => {
     axios
-      .post('/submit', { json: textArea.value })
-      .then((res) => {
-        console.log('TCL: res', res);
+      .post('/submit', { json: data })
+      .then(({ data }) => {
+        saveAs(new File([data], { type: 'text/csv' }), name);
       })
-      .catch((e) => {
-        console.log('TCL: e', e);
+      .catch((err) => {
+        console.log(err);
       });
+  };
 
-    textArea.value = '';
+  let saveAs = (blob, name) => {
+    let url = window.URL.createObjectURL(blob);
+    let a = document.createElement('a');
+
+    name = name.replace(/(\.json)/g, '.csv');
+
+    a.href = url;
+    a.download = name;
+    a.click();
+  };
+
+  fileElem.addEventListener('change', (e) => {
+    handleFile(fileElem.files[0]);
   });
 
   axios

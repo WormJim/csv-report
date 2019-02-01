@@ -5,22 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>CSV Report</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div>
-      <textarea name="json" id="json" cols="30" rows="10"></textarea>
+      <input type="file" id="fileElem" multiple class="visually-hidden" />
+      <label for="fileElem">Select JSON File</label>
     </div>
-    <div>
-      <input id="button" type="submit" value="submit" />
-    </div>
-    <!-- <form action="/submit" method="post">
-      <div>
-        <textarea name="json" id="json" cols="30" rows="10"></textarea>
-      </div>
-      <div>
-        <input id="button" type="submit" value="submit" />
-      </div>
-    </form> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script type="module" src="app.js"></script>
   </body>

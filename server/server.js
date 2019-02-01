@@ -10,17 +10,22 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/submit', function(req, res) {
   let { json, file } = req.body;
+  console.log('TCL: json', json);
   json = JSON.parse(json);
+  console.log('TCL: json', json);
 
   let handler = new Handler();
 
   handler.process(json, (err, filePath) => {
     if (!err) {
-      res.sendFile(filePath);
       // res.download(filePath);
+      // res.attachment(filePath);
+      res.sendFile(filePath);
     }
   });
 });
+
+app.get('/downloadFile', (req, res) => {});
 
 app.get('/readFiles', (req, res) => {
   _data.readAll((err, files) => {
